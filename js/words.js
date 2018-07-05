@@ -4,13 +4,23 @@ $(function() {
 
     $.getJSON("./json/words1.json", function(data) {
         words_1 = data;
-    }
+    });
 
     $.getJSON("./json/words2.json", function(data) {
         words_2 = data;
     });
 
     generateWords();
+
+    if ('speechSynthesis' in window) {
+        $("#play").show();
+         $("#play").click(function() {
+            var text = new SpeechSynthesisUtterance(getGermanWord());
+            console.log(getGermanWord());
+            text.lang = "de-DE";
+            window.speechSynthesis.speak(text);
+        });
+    }
 
     function randomWordFirst() {
         return words_1[Math.floor(Math.random() * words_1.length)];
