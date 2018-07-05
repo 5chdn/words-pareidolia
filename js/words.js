@@ -1,29 +1,28 @@
 $(function() {
-    var words;
+    var words_1;
+    var words_2;
 
-    $.getJSON("./json/words-de-en.json", function(data) {
-        words = data;
-        generateWords();
+    $.getJSON("./json/words1.json", function(data) {
+        words_1 = data;
+    }
 
-        if ('speechSynthesis' in window) {
-            $("#play").show();
-
-            $("#play").click(function() {
-                var text = new SpeechSynthesisUtterance(getGermanWord());
-                console.log(getGermanWord());
-                text.lang = "de-DE";
-                window.speechSynthesis.speak(text);
-            });
-        }
+    $.getJSON("./json/words2.json", function(data) {
+        words_2 = data;
     });
 
-    function randomWord() {
-        return words[Math.floor(Math.random() * words.length)];
+    generateWords();
+
+    function randomWordFirst() {
+        return words_1[Math.floor(Math.random() * words_1.length)];
+    }
+
+    function randomWordSecond() {
+        return words_2[Math.floor(Math.random() * words_2.length)];
     }
 
     function generateWords() {
-        var word1 = randomWord();
-        var word2 = randomWord();
+        var word1 = randomWordFirst();
+        var word2 = randomWordSecond();
 
         var germanWord2 = word2.de.toLowerCase();
         germanWord2 = "<u>" + germanWord2[0] + "</u>" + germanWord2.slice(1);
@@ -43,6 +42,4 @@ $(function() {
         generateWords();
         clip.setValue(getGermanWord());
     });
-
-
 });
